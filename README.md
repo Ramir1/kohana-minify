@@ -18,20 +18,24 @@ Simple Minify wrapper for Kohana 3. Yet basically tailored to suit my needs in a
     
 ## Как делаю я
 ### в application/config/minify.php
+
 return array(
 	'enabled' => true,
 	'path' => array(
-		'js'  	=> '',  	//папка с js по-умолчанию
+		'js'  	=> '',  	//папка с js по-умолчанию. Если файлы лежат в одном месте, то можно указать
 		'css' 	=> '',		//папка с ccs по-умолчанию
 		'media' => 'assets/',	// где будет создан объединенный файл
 	), 
 );
+
+Папка с js по-умолчанию. Если файлы лежат в одном месте, то можно указать папку и в controller-e писать относительный путь
+
 ### в controller
 	$this->template->styles[] = 'assets/libs/jcrop/css/jquery.Jcrop.css';
-        $this->template->styles[] = 'assets/libs/bootstrap/css/bootstrap.css';
+	$this->template->styles[] = 'assets/libs/bootstrap/css/bootstrap.css';
         
-        $this->template->scripts[] = 'assets/js/jquery.min.js';
-        $this->template->scripts[] = 'assets/libs/bootstrap/js/bootstrap.js';
+	$this->template->scripts[] = 'assets/js/jquery.min.js';
+	$this->template->scripts[] = 'assets/libs/bootstrap/js/bootstrap.js';
         
 ### в view
         $js = Minify::factory('js')->minify($scripts);
