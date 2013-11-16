@@ -40,15 +40,15 @@ class Minify_Core {
 
 	// Dateien zusammenfassen, komprimieren und im media verzeichnis ablegen
 	public function minify( $files , $build='' ) {
-		if ( Kohana::config('minify.enabled', false ) ) {
+		if ( Kohana::$config->load('minify.enabled', false ) ) {
 			$name = md5( json_encode( $files ) );
-			$outfile = Kohana::config('minify.path.media').$name.$build.'.'.$this->type;
+			$outfile = Kohana::$config->load('minify.path.media').$name.$build.'.'.$this->type;
 			if ( ! is_file( $outfile ) ) {
 				if (! is_array( $files ))
 					$files = array( $files ); 	
 				$output = ''; 
 				foreach( $files as $file ) {
-					$this->file = Kohana::config('minify.path.'.$this->type).$file;
+					$this->file = Kohana::$config->load('minify.path.'.$this->type).$file;
 					if ( is_file($this->file) ) {
 						$this->set( file_get_contents( $this->file ) );
 						$output .= $this->min() . "\r\n";
