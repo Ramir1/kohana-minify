@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Minify CSS driver interface.
  *
  * BASED ON THE CSSMIN  CODE BY joe.scylla: http://code.google.com/p/cssmin
  * BASED ON THE Kohana 2 implementation of Tom Morton
  */
+
 /**
  * cssmin.php - A simple CSS minifier.
  * --
@@ -21,10 +23,8 @@
  * @license     http://opensource.org/licenses/mit-license.php MIT License
  * @version     1.0.1.b3 (2008-10-02)
  */
+class Minify_CSS extends Minify_Core {
 
-
-class Minify_CSS  extends Minify_Core {
-	
     public function min() {
         $css = $this->input;
         $options = "";
@@ -42,35 +42,46 @@ class Minify_CSS  extends Minify_Core {
             $css = str_replace(";}", "}", $css);
         }
         $css = trim($css);
-        
+
         // prevent url
-        $path = url::base(FALSE);
-		if ( strrpos($this->file,'/') !== false )
-            $path .= substr($this->file,0,strrpos($this->file,'/')+1); 
-     	// Fix all paths within this CSS file, ignoring absolute paths.
-        $css = preg_replace('/url\(([\'"]?)(?![a-z]+:)/i', 'url(\1'. $path . '\2', $css);            	
-        
-        
+//        $path = '';URL::base(FALSE);
+        $path = Kohana::$config->load('minify.url.' . $this->type);
+
+        //если файл начинается с / то не прибавляем к нему часть пути
+        if (strpos($this->file, '/') === 0) {
+
+            $path .= substr($this->filepath, 0, strrpos($this->filepath, '/')+1);
+//            echo $this->file.' абсолют '.strpos($this->file, '/')." <br>path: ".$path." ++ "."<br>";
+        } else {
+
+            $path .= substr($this->filepath, 0, strrpos($this->filepath, '/')+1);
+//            echo $this->file.' относит '.strpos($this->file, '/')." <br>path: ".$path." ++ "."<br>";
+        }
+
+//        echo 'path '.$path;
+        // Fix all paths within this CSS file, ignoring absolute paths.
+//                    $css = preg_replace('/url\(([\'"]?)(?![a-z]+:)/i', 'url(\1' . $path . '\2', $css);
+//        рабочий    
+//        $css = preg_replace('/url\((["\']?)((?!["\']?(?:\w+:\/\/|\/)).+?)(["\']?)\)/i', 'url(\1' . $path . '\2\3', $css);
+
+
+        $css = preg_replace('/url\((["\']?)((?!["\']?(?:\w+:\/\/|\/)).+?)(["\']?)\)/i', 'url(\1' . $path . '\2\3)', $css);
+//            echo "<br>". $css."<br>";
+//        die();
+
         return $css;
     }
-
 
     public function cssmin_array_clean(array $array) {
         $r = array();
         $c = count($v);
-        if (cssmin_array_is_assoc($array))
-        {
-            foreach ($array as $key => $value)
-            {
+        if (cssmin_array_is_assoc($array)) {
+            foreach ($array as $key => $value) {
                 $r[$key] = trim($value);
             }
-        }
-        else
-        {
-            foreach ($array as $value)
-            {
-                if (trim($value) != "")
-                {
+        } else {
+            foreach ($array as $value) {
+                if (trim($value) != "") {
                     $r[] = trim($value);
                 }
             }
@@ -79,3 +90,5 @@ class Minify_CSS  extends Minify_Core {
     }
 
 }
+
+

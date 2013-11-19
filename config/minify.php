@@ -1,9 +1,17 @@
 <?php
+
 return array(
-	'enabled' => true,
-	'path' => array(
-		'js'  	=> 'views/jscript/',  	// pfad zu den einzelnen js dateien
-		'css' 	=> 'views/css/',		// pfad zu den einzelnen css dateien
-		'media' => 'media/',		 	// pfad zum zielverzeichnis der verkleinerten dateien
-	), 
+    'enabled' => true,
+    'gz' => true,
+    'path' => array(
+        'js' => '', // дополнительный путь к js. Например, все js храняться в папке /assets/ или на другом сайте http://site.com/assets/, 
+        //тогда можно при добавлении файла не указывать этот путь
+        'css' => '', // дополнительный путь к css
+        'media' => 'assets/cache/', // куда будут размещены готовые скрипты
+    ),
+    'url' => array(
+        'js' => '/', //  
+        'css' => '/', // url добавляется к относительным путям в свойствах url()
+        'media' => '/', // url к сгенерированным скриптам.
+    ),
 );
