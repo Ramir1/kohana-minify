@@ -18,7 +18,7 @@ Simple Minify wrapper for Kohana 3. Yet basically tailored to suit my needs in a
     
 ## Как делаю я
 ### в application/config/minify.php
-
+<?
 return array(
     'enabled' => true,
     'gz' => true,
@@ -34,7 +34,7 @@ return array(
         'media' => '/', // url к сгенерированным скриптам.
     ),
 );
-
+?>
 Папка с js по-умолчанию. Если файлы лежат в одном месте, то можно указать папку и в controller-e писать относительный путь
 
 ### в controller
