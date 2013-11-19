@@ -24,3 +24,9 @@ BASED ON THE JSMIN CODE BY rgrove: http://code.google.com/p/jsmin-php
 BASED ON THE CSSMIN CODE BY joe.scylla: http://code.google.com/p/cssmin
 
 BASED ON THE Kohana 2 Minify Driver by Tom Morton 
+
+## Update
+2013.11.19 
+- Изменен имя генерируемых файлов. Теперь minify_md5().build.
+- удаление сгенерированных файлов
+- сжатие gz сгенерированных файлов
