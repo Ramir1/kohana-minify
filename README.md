@@ -20,12 +20,19 @@ Simple Minify wrapper for Kohana 3. Yet basically tailored to suit my needs in a
 ### в application/config/minify.php
 
 return array(
-	'enabled' => true,
-	'path' => array(
-		'js'  	=> '',  	//папка с js по-умолчанию. Если файлы лежат в одном месте, то можно указать
-		'css' 	=> '',		//папка с ccs по-умолчанию
-		'media' => 'assets/',	// где будет создан объединенный файл
-	), 
+    'enabled' => true,
+    'gz' => true,
+    'path' => array(
+        'js' => '', // дополнительный путь к js. Например, все js храняться в папке /assets/ или на другом сайте http://site.com/assets/, 
+        //тогда можно при добавлении файла не указывать этот путь
+        'css' => '', // дополнительный путь к css
+        'media' => 'assets/cache/', // куда будут размещены готовые скрипты
+    ),
+    'url' => array(
+        'js' => '/', //  
+        'css' => '/', // url добавляется к относительным путям в свойствах url()
+        'media' => '/', // url к сгенерированным скриптам.
+    ),
 );
 
 Папка с js по-умолчанию. Если файлы лежат в одном месте, то можно указать папку и в controller-e писать относительный путь
@@ -51,22 +58,6 @@ BASED ON THE CSSMIN CODE BY joe.scylla: http://code.google.com/p/cssmin
 
 BASED ON THE Kohana 2 Minify Driver by Tom Morton 
 
-## Config
-return array(
-    'enabled' => true,
-    'gz' => true,
-    'path' => array(
-        'js' => '', // дополнительный путь к js. Например, все js храняться в папке /assets/ или на другом сайте http://site.com/assets/, 
-        //тогда можно при добавлении файла не указывать этот путь
-        'css' => '', // дополнительный путь к css
-        'media' => 'assets/cache/', // куда будут размещены готовые скрипты
-    ),
-    'url' => array(
-        'js' => '/', //  
-        'css' => '/', // url добавляется к относительным путям в свойствах url()
-        'media' => '/', // url к сгенерированным скриптам.
-    ),
-);
 
 ## Update
 2013.11.19 
