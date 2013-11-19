@@ -48,8 +48,9 @@ class Minify_Core {
             $name = 'minify_'.substr(md5(json_encode($files)),0,16);
             $outfile = Kohana::$config->load('minify.path.media') . $name . $build . '.' . $this->type;
             if (!is_file($outfile)) {
-                if (!is_array($files) && 1 == 2)
+                if (!is_array($files))
                     $files = array($files);
+                
                 $files = array_unique($files);
                 $output = '';
                 foreach ($files as $file) {
