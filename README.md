@@ -19,26 +19,28 @@ Simple Minify wrapper for Kohana 3. Yet basically tailored to suit my needs in a
 ## Как делаю я
 ### в application/config/minify.php
 
-<?
-return array(
-    'enabled' => true,
-    'gz' => true,
-    'path' => array(
-        'js' => '', // дополнительный путь к js. Например, все js храняться в папке /assets/ или на другом сайте http://site.com/assets/, 
-        //тогда можно при добавлении файла не указывать этот путь
-        'css' => '', // дополнительный путь к css
-        'media' => 'assets/cache/', // куда будут размещены готовые скрипты
-    ),
-    'url' => array(
-        'js' => '/', //  
-        'css' => '/', // url добавляется к относительным путям в свойствах url()
-        'media' => '/', // url к сгенерированным скриптам.
-    ),
-);
-?>
+	<?php
+	return array(
+    		'enabled' => true,
+    		'gz' => true,
+    		'path' => array(
+        		'js' => '', 
+        		// дополнительный путь к js. Например, все js храняться в папке /assets/ или на другом сайте
+        		//http://site.com/assets/ тогда можно при добавлении файла не указывать этот путь
+		        'css' => '', // дополнительный путь к css
+		        'media' => 'assets/cache/', // куда будут размещены готовые скрипты
+    		),
+		'url' => array(
+        		'js' => '/', //  
+        		'css' => '/', // url добавляется к относительным путям в свойствах url()
+        		'media' => '/', // url к сгенерированным скриптам.
+    		),
+	);
+	?>
 
 
 ### в controller
+
 	$this->template->styles[] = 'assets/libs/jcrop/css/jquery.Jcrop.css';
 	$this->template->styles[] = 'assets/libs/bootstrap/css/bootstrap.css';
         
@@ -46,10 +48,26 @@ return array(
 	$this->template->scripts[] = 'assets/libs/bootstrap/js/bootstrap.js';
         
 ### в view
+
+        $cs = Minify::factory('css')->minify($styles, '131119'); //131119 - версия файлов
+        foreach ($cs as $file_style):
+        	echo HTML::style($file_style) . "\n";
+        endforeach;
+        
         $js = Minify::factory('js')->minify($scripts);
-        echo HTML::script($js[0]);
-        $cs = Minify::factory('css')->minify($styles);
-        echo HTML::style($cs[0]);
+        foreach ($cs as $file_script):
+        	echo HTML::script($file_script);
+	endforeach;
+	
+## Очистка кеша
+
+Например, в контроллер Admin можно добавить
+
+    public function action_clearCache() {
+        Minify::factory('css')->clearCache(); //css здесь ни на что не влияет. 
+        //Удяляются все файлы, которые начинаются на minify_
+         HTTP::redirect('/admin');
+    }
 
 ## Credits
 
